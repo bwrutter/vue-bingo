@@ -17,7 +17,7 @@
           <v-col>
             <v-sheet class="columsPlayers" color="#F4F775">
               <div class="players">{{ player1 }}</div>
-              <CartelasComponent :cardPlayer1="cardPlayer1"/>
+              <CartelasComponent :cardPlayer1="cardPlayer1" :sortedLetter="sortedLetter" :sortedNumber="sortedNumber"/>
             </v-sheet>
           </v-col>
           <v-col>
@@ -33,7 +33,7 @@
           <v-col>
             <v-sheet class="columsPlayers" color="#F4F775">
               <div class="players">{{ player2 }}</div>
-              <CartelasComponent :cardPlayer1="cardPlayer1"/>
+              <CartelasComponent :cardPlayer1="cardPlayer1" :sortedLetter="sortedLetter" :sortedNumber="sortedNumber"/>
             </v-sheet>
           </v-col>
         </v-row>
@@ -59,7 +59,10 @@ export default {
       player2: "",
       numberCards: "",
       sortLetterAndNumber: "",
-      cardPlayer1: []
+      cardPlayer1: [],
+      sortedLetter: [],
+      sortedNumber: [],
+      sorteio: []
     }
   },
 
@@ -76,8 +79,7 @@ export default {
             this.player2 = "Dona Tereza"
           }
           for (let i = 0; i < 25; i++){
-            this.cardPlayer1.push((Math.floor(Math.random() * 99)));
-            console.log("ENTROU")
+            this.cardPlayer1.push((Math.floor(Math.random() * 75)));
           }  
         /*let aux = new PlayersModel(this.player1, this.numberCards);
         aux.inicializarCartelas(this.numberCards);
@@ -90,8 +92,22 @@ export default {
     sort(){
       let allLetter = "BINGO";
       let randomNumberToLetter = Math.floor(Math.random() * 5);
-      this.sortLetterAndNumber = (allLetter.substring(randomNumberToLetter+1,randomNumberToLetter) + (Math.floor(Math.random() * 99)));
-      /*this.randomNumberToLetterProp = randomNumberToLetter;*/
+      let letras = allLetter.substring(randomNumberToLetter+1,randomNumberToLetter);
+      let numero = Math.floor(Math.random() * 75);
+      this.sortLetterAndNumber = ( letras + numero );
+      this.sortedLetter.push(letras);
+      this.sortedNumber.push(numero);
+
+      /*let sorteio = []*/
+      this.sorteio.push(numero)
+      let acertos = this.sorteio.filter(numero => this.cardPlayer1.includes(numero)) 
+      console.log("Você acertou " + acertos.length + " números: ", acertos)
+
+      /*let randomNumberToLetter = Math.floor(Math.random() * 75);
+      let randomLetter = allLetter.substring(randomNumberToLetter+1,randomNumberToLetter);
+      this.sortLetterAndNumber = randomLetter + randomNumberToLetter;
+      this.sortedLetter.push(randomLetter);
+      this.sortedNumber.push(randomNumberToLetter);*/
     }
   }
 }

@@ -59,7 +59,9 @@ export default {
 
   name: "CartelasComponent",
   props: {
-    cardPlayer1: []
+    cardPlayer1: [],
+    sortedLetter: [],
+    sortedNumber: []
   },
   
     data() {
