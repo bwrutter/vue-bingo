@@ -22,7 +22,7 @@
           </v-col>
           <v-col>
             <v-sheet class="centralColumn" color="#F4F775">
-              <div class="sortLetterAndNumber">{{ sortLetterAndNumber }}</div>
+              <div class="sortLetterAndNumber">{{ sortLetterAndNumber[sortLetterAndNumber.length -1] }}</div>
               <div class="button-bingo">
                 <v-btn color="success" fab x-large dark @click="sort">
                   <v-icon>mdi-refresh</v-icon>
@@ -58,8 +58,8 @@ export default {
       player1: "",
       player2: "",
       numberCards: "",
-      sortLetterAndNumber: "",
-      cardPlayer1: [],
+      sortLetterAndNumber: [],
+      cardPlayer1: [ this.sortLetterAndNumber, this.sortedLetter],
       sortedLetter: [],
       sortedNumber: [],
       sorteio: []
@@ -73,7 +73,7 @@ export default {
   methods: {
     register() {
       this.$refs.form.validate();
-      if (this.$refs.form.validate() == true) {
+      if (this.$refs.form.validate() == true){
         this.havePlayer = true;
           if (this.player2 == '') {
             this.player2 = "Dona Tereza"
@@ -94,12 +94,12 @@ export default {
       let randomNumberToLetter = Math.floor(Math.random() * 5);
       let letras = allLetter.substring(randomNumberToLetter+1,randomNumberToLetter);
       let numero = Math.floor(Math.random() * 75);
-      this.sortLetterAndNumber = ( letras + numero );
+      this.sortLetterAndNumber.push(letras + numero);
       this.sortedLetter.push(letras);
       this.sortedNumber.push(numero);
-
-      /*let sorteio = []*/
-      this.sorteio.push(numero)
+      console.log(this.sortLetterAndNumber[this.sortLetterAndNumber.length -1])
+      /*let sorteio = []
+      this.sorteio.push(sortLetterAndNumber)*/
       let acertos = this.sorteio.filter(numero => this.cardPlayer1.includes(numero)) 
       console.log("Você acertou " + acertos.length + " números: ", acertos)
 
