@@ -12,39 +12,39 @@
             </thead>
             <tbody class="bingo-set">
                 <tr>
-                    <td class="bingo-number">{{ cardPlayer1[1] }}</td>
-                    <td class="bingo-number">{{ cardPlayer1[2] }}</td>
-                    <td class="bingo-number">{{ cardPlayer1[3] }}</td>
-                    <td class="bingo-number">{{ cardPlayer1[4] }}</td>
-                    <td class="bingo-number">{{ cardPlayer1[5] }}</td>
+                    <td class="bingo-number">{{ B[0] }}</td>
+                    <td class="bingo-number">{{ I[0] }}</td>
+                    <td class="bingo-number">{{ N[0] }}</td>
+                    <td class="bingo-number">{{ G[0] }}</td>
+                    <td class="bingo-number">{{ O[0] }}</td>
                 </tr>
                 <tr>
-                    <td class="bingo-number">{{ cardPlayer1[6] }}</td>
-                    <td class="bingo-number">{{ cardPlayer1[7] }}</td>
-                    <td class="bingo-number">{{ cardPlayer1[8] }}</td>
-                    <td class="bingo-number">{{ cardPlayer1[9] }}</td>
-                    <td class="bingo-number">{{ cardPlayer1[10] }}</td>
+                    <td class="bingo-number">{{ B[1] }}</td>
+                    <td class="bingo-number">{{ I[1] }}</td>
+                    <td class="bingo-number">{{ N[1] }}</td>
+                    <td class="bingo-number">{{ G[1] }}</td>
+                    <td class="bingo-number">{{ O[1] }}</td>
                 </tr>
                 <tr>
-                    <td class="bingo-number">{{ cardPlayer1[11] }}</td>
-                    <td class="bingo-number">{{ cardPlayer1[12] }}</td>
+                    <td class="bingo-number">{{ B[2] }}</td>
+                    <td class="bingo-number">{{ I[2] }}</td>
                     <td class="bingo-number">X</td>
-                    <td class="bingo-number">{{ cardPlayer1[13] }}</td>
-                    <td class="bingo-number">{{ cardPlayer1[14] }}</td>
+                    <td class="bingo-number">{{ G[2] }}</td>
+                    <td class="bingo-number">{{ O[2] }}</td>
                 </tr>
                 <tr>
-                    <td class="bingo-number">{{ cardPlayer1[15] }}</td>
-                    <td class="bingo-number">{{ cardPlayer1[16] }}</td>
-                    <td class="bingo-number">{{ cardPlayer1[17] }}</td>
-                    <td class="bingo-number">{{ cardPlayer1[18] }}</td>
-                    <td class="bingo-number">{{ cardPlayer1[19] }}</td>
+                    <td class="bingo-number">{{ B[3] }}</td>
+                    <td class="bingo-number">{{ I[3] }}</td>
+                    <td class="bingo-number">{{ N[3] }}</td>
+                    <td class="bingo-number">{{ G[3] }}</td>
+                    <td class="bingo-number">{{ O[3] }}</td>
                 </tr>
                 <tr>
-                    <td class="bingo-number">{{ cardPlayer1[20] }}</td>
-                    <td class="bingo-number">{{ cardPlayer1[21] }}</td>
-                    <td class="bingo-number">{{ cardPlayer1[22] }}</td>
-                    <td class="bingo-number">{{ cardPlayer1[23] }}</td>
-                    <td class="bingo-number">{{ cardPlayer1[24] }}</td>
+                    <td class="bingo-number">{{ B[4] }}</td>
+                    <td class="bingo-number">{{ I[4] }}</td>
+                    <td class="bingo-number">{{ N[4] }}</td>
+                    <td class="bingo-number">{{ G[4] }}</td>
+                    <td class="bingo-number">{{ O[4] }}</td>
                 </tr>
             </tbody>
         </table>
@@ -61,16 +61,16 @@ export default {
   props: {
     cardPlayer1: [],
     sortedLetter: [],
-    sortedNumber: []
+    sortedNumber: [],
+    B: [],
+    I: [],
+    N: [],
+    G: [],
+    O: []
   },
   
     data() {
         return {
-            B: [],
-            I: [],
-            N: [],
-            G: [],
-            O: [],
         }
     },
 
