@@ -54,16 +54,16 @@ export default {
 
   data() {
     return {
+      playerId: Number,
       havePlayer: false,
-      player1: "",
-      player2: "",
-      numberCards: "",
+      player1: String,
+      player2: String,
+      numberCards: Number,
       sortLetterAndNumber: [],
       cardPlayer1: [],
       sortedLetter: [],
       sortedNumber: [],
-      sorteio: [],
-      contador: [],
+      contador: Number,
       B: [],
       I: [],
       N: [],
@@ -86,16 +86,12 @@ export default {
             this.player2 = "Dona Tereza"
           }
 
-
-
-
-
-          let x = new Array(75);
+          /*let x = new Array(75);
           for(let i=1; i<76; i++) {
               x[i] = i; 
           } 
           x.sort(function(a,b){ return (Math.round(Math.random())-0.5); });
-          console.log("IMPRIME O X: " + x)
+          console.log("IMPRIME O X: " + x)*/
 
           for (let i = 0; i <= 4; i++){
             
@@ -159,13 +155,6 @@ export default {
 
       this.sortedLetter.push(letras);
       this.sortedNumber.push(numero);
-      /*console.log(this.sortLetterAndNumber[this.sortLetterAndNumber.length -1])
-      let sorteio = []
-      this.sorteio.push(sortLetterAndNumber)
-      let acertos = this.sorteio.filter(numero => this.cardPlayer1.includes(numero)) */
-      /*console.log("Você acertou " + acertos.length + " números: ", acertos)
-      console.log("CARD PLAYER   " + this.cardPlayer1)
-      console.log("CARD PLAYER SOZINHO " + this.cardPlayer1[1])*/
    
       if(this.cardPlayer1.includes(this.sortedNumber.length -1)){
         this.contador++
