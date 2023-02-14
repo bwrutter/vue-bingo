@@ -84,33 +84,27 @@ export default {
 * {
     box-sizing: border-box;
 }
-
 body {
     color: #333;
 }
-
 .u-hidden {
     display: none;
 }
-
 .u-wrapper {
     position: relative;
     display: inline-block;
     margin: 10px;
     z-index: 1;
 }
-
 .bingo {
     table-layout: fixed;
     width: 270px;
 }
-
 .bingo-letter {
     padding: 5px 0;
     font-family: 'sans-serif';
     font-size: 20px;
 }
-
 .bingo-number {
     padding: auto;
     height: 45px;

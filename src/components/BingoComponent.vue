@@ -55,7 +55,6 @@ export default {
       player2: "",
       numberCards: "",
       sortLetterAndNumber: [],
-      sortedLetter: [],
       sortedNumber: [],
       contador: Number,
       B: [],
@@ -111,7 +110,6 @@ export default {
         console.log("Terceiro IF")
       }
 
-      this.sortedLetter.push(letras);
       this.sortedNumber.push(numero);
 
       if (this.cardPlayer1.includes(this.sortedNumber.length - 1)) {

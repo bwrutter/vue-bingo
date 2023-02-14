@@ -1,6 +1,5 @@
 <template>
-    <CartelasComponent/>
- 
+    <CartelasComponent/> 
 </template>
 <script>
 import CartelasComponent from './CartelasComponent.vue'
