@@ -52,16 +52,11 @@
 
 </template>
 <script>
-/*import CardsModel from '../models/CardsModel.ts';
-import BingoComponent from './BingoComponent.vue'*/
 
 export default {
 
   name: "CartelasComponent",
   props: {
-    cardPlayer1: [],
-    sortedLetter: [],
-    sortedNumber: [],
     B: [],
     I: [],
     N: [],
