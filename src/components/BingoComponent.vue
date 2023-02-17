@@ -4,6 +4,9 @@
       <div>
         <v-img alt="bingo" src="../assets/bingo.png" style="max-width: 250px; padding: 10px; margin: auto;"> </v-img>
       </div>
+      <div>
+        {{ posicoesDisponiveis }}
+      </div>
       <div class="formulario" v-if="!havePlayer">
         <v-form ref="form" v-model="valid" lazy-validation>
           <v-text-field v-model="player1" :rules="[v => (!!v) || 'Nome é obrigatório!']" label="Nome do jogador 1"
@@ -19,14 +22,14 @@
           <v-col>
             <v-sheet class="columsPlayers" color="#F4F775">
               <div class="players">{{ player1 }}</div>
-              <CartelasComponent :B="B" :I="I" :N="N" :G="G" :O="O" />
+              <CartelasComponent :posicoesSorteadas="posicoesSorteadas" :todasPosicoes="todasPosicoes" @ganhou="encerrarOJogo(1)" />
             </v-sheet>
           </v-col>
           <v-col>
             <v-sheet class="centralColumn" color="#F4F775">
-              <div class="sortLetterAndNumber">{{ sortLetterAndNumber[sortLetterAndNumber.length - 1] }}</div>
+              <div class="sortLetterAndNumber">{{ letraPlacar + numeroPlacar }}</div>
               <div class="button-bingo">
-                <v-btn color="success" fab x-large dark @click="sort">
+                <v-btn color="success" fab x-large dark @click="sortear">
                   <v-icon>mdi-refresh</v-icon>
                 </v-btn>
               </div>
@@ -35,7 +38,19 @@
           <v-col>
             <v-sheet class="columsPlayers" color="#F4F775">
               <div class="players">{{ player2 }}</div>
-              <CartelasComponent :B="B" :I="I" :N="N" :G="G" :O="O" />
+              <CartelasComponent :posicoesSorteadas="posicoesSorteadas" :todasPosicoes="todasPosicoes" @ganhou="encerrarOJogo(2)" />
+            </v-sheet>
+            <v-sheet class="columsPlayers" color="#F4F775">
+              <div class="players">{{ player2 }}</div>
+              <CartelasComponent :posicoesSorteadas="posicoesSorteadas" :todasPosicoes="todasPosicoes" @ganhou="encerrarOJogo(2)" />
+            </v-sheet>
+            <v-sheet class="columsPlayers" color="#F4F775">
+              <div class="players">{{ player2 }}</div>
+              <CartelasComponent :posicoesSorteadas="posicoesSorteadas" :todasPosicoes="todasPosicoes" @ganhou="encerrarOJogo(2)" />
+            </v-sheet>
+            <v-sheet class="columsPlayers" color="#F4F775">
+              <div class="players">{{ player2 }}</div>
+              <CartelasComponent :posicoesSorteadas="posicoesSorteadas" :todasPosicoes="todasPosicoes" @ganhou="encerrarOJogo(2)" />
             </v-sheet>
           </v-col>
         </v-row>
@@ -45,6 +60,7 @@
 </template>
 <script>
 import CartelasComponent from "./CartelasComponent.vue"
+import { sortearPosicao } from './randomizer';
 
 export default {
 
@@ -62,6 +78,12 @@ export default {
       N: [],
       G: [],
       O: [],
+      posicoesDisponiveis: [],
+      todasPosicoes: [],
+      posicoesSorteadas: [],
+      numeroPlacar: "",
+      letraPlacar: "",
+      vencedor: ""
     }
   },
 
@@ -72,35 +94,70 @@ export default {
   methods: {
     register() {
       this.$refs.form.validate();
+      this.gerarTabuleiro()
       if (this.$refs.form.validate() == true) {
         this.havePlayer = true;
         if (this.player2 == '') {
           this.player2 = "Dona Tereza"
         }
-
-        for (let i = 0; i <= 4; i++) {
-
-          this.B.push(Math.floor(Math.random() * 75));
-          this.I.push(Math.floor(Math.random() * 75));
-
-          if (i == 2) {
-            this.N.push("X");
-          } else {
-            this.N.push(Math.floor(Math.random() * 75));
-          }
-
-          this.G.push(Math.floor(Math.random() * 75));
-          this.O.push(Math.floor(Math.random() * 75));
-
-        }
       }
     },
 
-    sort() {
+    gerarTabuleiro() {
+      const todasPosicoes = [
+        this.gerarColuna(1),
+        this.gerarColuna(2),
+        this.gerarColuna(3),
+        this.gerarColuna(4),
+        this.gerarColuna(5),
+      ]
+      this.todasPosicoes = todasPosicoes
+      this.posicoesDisponiveis = todasPosicoes.flat(1)
+    },
+
+    gerarColuna(numeroDaColuna) {
+      const coluna = Array.from({ length: 15 }).map((_value, index) => {
+        return (index + 1) + (15 * (numeroDaColuna - 1))
+      })
+      return coluna
+    },
+
+    sortearNumero() {
+      const posicao = sortearPosicao(this.posicoesDisponiveis)
+      const [numero] = this.posicoesDisponiveis.splice(posicao, 1)
+      this.posicoesSorteadas.push(numero)
+
+      return numero
+    },
+
+    encerrarOJogo(vencedor) {
+      this.vencedor = vencedor
+
+      if(vencedor == 1){
+        window.alert("Player 1 ganhou !")
+      } else {
+        window.alert("vão pra casa velharada!")
+      }
+    },
+
+    sortear() {
       let allLetter = "BINGO";
       let randomNumberToLetter = Math.floor(Math.random() * 5);
       let letras = allLetter.substring(randomNumberToLetter + 1, randomNumberToLetter);
-      let numero = Math.floor(Math.random() * 75);
+      let numero = this.sortearNumero()
+      this.numeroPlacar = numero
+
+      if(this.numeroPlacar <= 15){
+        this.letraPlacar = "B"
+      } else if (this.numeroPlacar >= 16 && this.numeroPlacar <= 30) {
+        this.letraPlacar = "I"
+      } else if (this.numeroPlacar >= 31 && this.numeroPlacar <= 46) {
+        this.letraPlacar = "N"
+      } else if (this.numeroPlacar >= 47 && this.numeroPlacar <= 62) {
+        this.letraPlacar = "G"
+      } else {
+        this.letraPlacar = "O"
+      }
 
       if (this.sortLetterAndNumber == '') {
         this.sortLetterAndNumber.push(letras + numero);
