@@ -1,4 +1,4 @@
-# vue-agora-vai
+# vue-bingo
 
 ## Project setup
 ```
