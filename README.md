@@ -1,5 +1,7 @@
 # vue-bingo
 
+https://bwrutter.github.io/vue-bingo/
+
 ## Project setup
 ```
 npm install
