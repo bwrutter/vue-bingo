@@ -5,5 +5,5 @@ module.exports = defineConfig({
   ]
 })*/
 module.exports = {
-  publicPath: "vue-bingo"
+  publicPath: "/vue-bingo"
 }
