@@ -20,9 +20,12 @@
       <v-container class="container" v-if="havePlayer">
         <v-row>
           <v-col>
+            <div class="players">{{ player1 }}</div>
             <v-sheet class="columsPlayers" color="#F4F775">
-              <div class="players">{{ player1 }}</div>
-              <CartelasComponent :posicoesSorteadas="posicoesSorteadas" :todasPosicoes="todasPosicoes" @ganhou="encerrarOJogo(1)" />
+                <CartelasComponent :posicoesSorteadas="posicoesSorteadas" :todasPosicoes="todasPosicoes" @ganhou="encerrarOJogo(1)" />
+            </v-sheet>
+            <v-sheet class="columsPlayers" color="#F4F775">
+                <CartelasComponent :posicoesSorteadas="posicoesSorteadas" :todasPosicoes="todasPosicoes" @ganhou="encerrarOJogo(1)" />
             </v-sheet>
           </v-col>
           <v-col>
@@ -36,21 +39,12 @@
             </v-sheet>
           </v-col>
           <v-col>
+            <div class="players">{{ player2 }}</div>
             <v-sheet class="columsPlayers" color="#F4F775">
-              <div class="players">{{ player2 }}</div>
-              <CartelasComponent :posicoesSorteadas="posicoesSorteadas" :todasPosicoes="todasPosicoes" @ganhou="encerrarOJogo(2)" />
+                <CartelasComponent :posicoesSorteadas="posicoesSorteadas" :todasPosicoes="todasPosicoes" @ganhou="encerrarOJogo(2)" />
             </v-sheet>
             <v-sheet class="columsPlayers" color="#F4F775">
-              <div class="players">{{ player2 }}</div>
-              <CartelasComponent :posicoesSorteadas="posicoesSorteadas" :todasPosicoes="todasPosicoes" @ganhou="encerrarOJogo(2)" />
-            </v-sheet>
-            <v-sheet class="columsPlayers" color="#F4F775">
-              <div class="players">{{ player2 }}</div>
-              <CartelasComponent :posicoesSorteadas="posicoesSorteadas" :todasPosicoes="todasPosicoes" @ganhou="encerrarOJogo(2)" />
-            </v-sheet>
-            <v-sheet class="columsPlayers" color="#F4F775">
-              <div class="players">{{ player2 }}</div>
-              <CartelasComponent :posicoesSorteadas="posicoesSorteadas" :todasPosicoes="todasPosicoes" @ganhou="encerrarOJogo(2)" />
+                <CartelasComponent :posicoesSorteadas="posicoesSorteadas" :todasPosicoes="todasPosicoes" @ganhou="encerrarOJogo(2)" />
             </v-sheet>
           </v-col>
         </v-row>
@@ -134,9 +128,9 @@ export default {
       this.vencedor = vencedor
 
       if(vencedor == 1){
-        window.alert("Player 1 ganhou !")
-      } else {
-        window.alert("vão pra casa velharada!")
+        window.alert(this.player1 + " ganhou !")
+      } else if(vencedor == 2){
+        window.alert(this.player2 + " ganhou !")
       }
     },
 
@@ -169,13 +163,6 @@ export default {
 
       this.sortedNumber.push(numero);
 
-      if (this.cardPlayer1.includes(this.sortedNumber.length - 1)) {
-        this.contador++
-        console.log(this.contador)
-        if (this.contador === 25) {
-          alert("VENCEU!!!!!!!!!");
-        }
-      }
     }
   }
 }
@@ -215,12 +202,16 @@ export default {
   font-family: 'sans-serif';
   font-size: 30px;
   text-align: center;
+  margin: auto;
+  background-color: #F4F775;
+  border-radius: 10px;
 }
 
 .columsPlayers {
   width: 300px;
-  height: 400px;
+  height: 330px;
   border-radius: 15px;
+  margin-top: 15px;
 }
 
 .container {
