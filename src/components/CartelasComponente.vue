@@ -1,6 +1,7 @@
 <template>
     <div class="u-wrapper" id="bingo_template">
         <table class="bingo">
+            <div v-if="ganhei" width="20px"> BINGOOOO!</div>
             <thead>
                 <tr>
                     <th class="bingo-letter">B</th>
@@ -78,7 +79,6 @@ export default {
         ganhei() {
             const numerosAcerto = this.numeros.filter(n => this.posicoesSorteadas.includes(n))
             if (numerosAcerto.length >= 25) {
-                console.log("ACERTOU " + numerosAcerto.length)
                 return true
             } else {
             return false

@@ -4,34 +4,29 @@
       <div>
         <v-img alt="bingo" src="../assets/bingo.png" style="max-width: 250px; padding: 10px; margin: auto;"> </v-img>
       </div>
-      <!--<div>
-        {{ posicoesDisponiveis }}
-      </div>-->
-      <div class="formulario" v-if="!havePlayer">
+      <div class="formulario" v-if="!temJogador">
         <v-form ref="form" v-model="valid" lazy-validation>
-          <v-text-field v-model="player1" :rules="[v => (!!v) || 'Nome é obrigatório!']" label="Nome do jogador 1"
+          <v-text-field v-model="jogador1" :rules="[v => (!!v) || 'Nome é obrigatório!']" label="Nome do jogador 1"
             required></v-text-field>
-          <v-text-field v-model="player2" label="Nome do jogador 2 ou nome aleatório" required></v-text-field>
-          <v-text-field v-model="numberCards" :rules="[v => !!v || 'Quantidade de cartelas é obrigatória!']"
-            label="Quantidade de cartelas" required></v-text-field>
+          <v-text-field v-model="jogador2" label="Nome do jogador 2 ou nome aleatório" required></v-text-field>
+          <v-text-field v-model="numeroCartelas" :rules="[v => !!v || 'Quantidade de cartelas é obrigatória e no máximo 4']"
+            label="Quantidade de cartelas, máximo 4" required></v-text-field>
           <v-btn color="success" class="mr-4" @click="register">Jogar</v-btn>
         </v-form>
       </div>
-      <v-container class="container" v-if="havePlayer">
+      <v-container class="container" v-if="temJogador">
         <v-row>
           <v-col>
-            <div class="players">{{ player1 }}</div>
-            <v-sheet class="columsPlayers" color="#F4F775">
-                <CartelasComponent :posicoesSorteadas="posicoesSorteadas" :todasPosicoes="todasPosicoes" @ganhou="encerrarOJogo(1)" />
-            </v-sheet>
-            <v-sheet class="columsPlayers" color="#F4F775">
-                <CartelasComponent :posicoesSorteadas="posicoesSorteadas" :todasPosicoes="todasPosicoes" @ganhou="encerrarOJogo(1)" />
+            <div class="jogadores">{{ jogador1 }}</div>
+            <v-sheet v-for="cartela in cartelas" :key="cartela" class="colunajogadores" color="#F4F775">
+              <CartelasComponente :posicoesSorteadas="posicoesSorteadas" :todasPosicoes="todasPosicoes"
+                @ganhou="encerrarOJogo(1)" />
             </v-sheet>
           </v-col>
           <v-col>
-            <v-sheet class="centralColumn" color="#F4F775">
-              <div class="sortLetterAndNumber">{{ letraPlacar + numeroPlacar }}</div>
-              <div class="button-bingo">
+            <v-sheet class="colunaCentral" color="#F4F775">
+              <div class="letraNumero">{{ letraPlacar + numeroPlacar }}</div>
+              <div class="botao-bingo">
                 <v-btn color="success" fab x-large dark @click="sortearNumero">
                   <v-icon>mdi-refresh</v-icon>
                 </v-btn>
@@ -39,12 +34,10 @@
             </v-sheet>
           </v-col>
           <v-col>
-            <div class="players">{{ player2 }}</div>
-            <v-sheet class="columsPlayers" color="#F4F775">
-                <CartelasComponent :posicoesSorteadas="posicoesSorteadas" :todasPosicoes="todasPosicoes" @ganhou="encerrarOJogo(2)" />
-            </v-sheet>
-            <v-sheet class="columsPlayers" color="#F4F775">
-                <CartelasComponent :posicoesSorteadas="posicoesSorteadas" :todasPosicoes="todasPosicoes" @ganhou="encerrarOJogo(2)" />
+            <div class="jogadores">{{ jogador2 }}</div>
+            <v-sheet v-for="cartela in cartelas" :key="cartela" class="colunajogadores" color="#F4F775">
+              <CartelasComponente :posicoesSorteadas="posicoesSorteadas" :todasPosicoes="todasPosicoes"
+                @ganhou="encerrarOJogo(2)" />
             </v-sheet>
           </v-col>
         </v-row>
@@ -52,49 +45,42 @@
     </v-main>
   </v-app>
 </template>
-<script>
-import CartelasComponent from "./CartelasComponent.vue"
-import { sortearPosicao } from './randomizer';
+<script >
+import CartelasComponente from "./CartelasComponente.vue";
+import { sortearPosicao } from "./randomizer";
 
 export default {
 
   data() {
     return {
-      havePlayer: false,
-      player1: "",
-      player2: "",
-      numberCards: "",
-      sortLetterAndNumber: [],
-      sortedNumber: [],
-      contador: Number,
-      B: [],
-      I: [],
-      N: [],
-      G: [],
-      O: [],
+      temJogador: false,
+      jogador1: null,
+      jogador2: null,
+      numeroCartelas: null,
       posicoesDisponiveis: [],
       todasPosicoes: [],
       posicoesSorteadas: [],
-      numeroPlacar: "",
-      letraPlacar: "",
-      vencedor: ""
+      numeroPlacar: null,
+      letraPlacar: null,
+      vencedor: null,
+      ultimosSorteados: [],
+      cartelas: null
     }
   },
 
   components: {
-    CartelasComponent
+    CartelasComponente
   },
 
   methods: {
     register() {
       this.$refs.form.validate();
-      if (this.$refs.form.validate() == true){
+      if (this.$refs.form.validate() == true && this.numeroCartelas <= 4) {
         this.gerarTabuleiro()
-      }
-      if (this.$refs.form.validate() == true) {
-        this.havePlayer = true;
-        if (this.player2 == '') {
-          this.player2 = "Dona Tereza"
+        this.temJogador = true;
+        this.cartelas = parseInt(this.numeroCartelas)
+        if (this.jogador2 == null) {
+          this.jogador2 = "Dona Tereza"
         }
       }
     },
@@ -119,17 +105,22 @@ export default {
     },
 
     sortearNumero() {
-      const posicao = sortearPosicao(this.posicoesDisponiveis)
-      const [numero] = this.posicoesDisponiveis.splice(posicao, 1)
-      this.posicoesSorteadas.push(numero)
-      this.letraNumeroSorteio(numero)
 
-      return numero
+      if(this.vencedor != null){
+        this.reiniciaBingo()
+      } else {
+        const posicao = sortearPosicao(this.posicoesDisponiveis)
+        const [numero] = this.posicoesDisponiveis.splice(posicao, 1)
+        this.posicoesSorteadas.push(numero)
+        this.letraNumeroSorteio(numero)
+        return numero        
+      }
     },
 
-    letraNumeroSorteio(numero){
+    letraNumeroSorteio(numero) {
       this.numeroPlacar = numero
-      if(this.numeroPlacar <= 15){
+
+      if (this.numeroPlacar <= 15) {
         this.letraPlacar = "B"
       } else if (this.numeroPlacar >= 16 && this.numeroPlacar <= 30) {
         this.letraPlacar = "I"
@@ -140,36 +131,32 @@ export default {
       } else {
         this.letraPlacar = "O"
       }
+
     },
 
     encerrarOJogo(vencedor) {
       this.vencedor = vencedor
 
-      if(vencedor == 1){
-        window.alert(this.player1 + " ganhou !")
-      } else if(vencedor == 2){
-        window.alert(this.player2 + " ganhou !")
+      if (vencedor == 1) {
+        window.alert("BINGOOOOOOO!!!! " + this.jogador1 + " ganhou !")
+      } else if (vencedor == 2) {
+        window.alert("BINGOOOOOOO!!!! " + this.jogador2 + " ganhou !")
       }
     },
 
-/*    sortear() {
+    reiniciaBingo() {
+      this.temJogador = false
+      this.jogador1 = null
+      this.jogador2 = null
+      this.numeroCartelas = null
+      this.posicoesDisponiveis = [],
+      this.todasPosicoes = [],
+      this.posicoesSorteadas = [],
+      this.numeroPlacar = null,
+      this.letraPlacar = null,
+      this.vencedor = null
+    }
 
-      let numero = this.sortearNumero()
-      this.numeroPlacar = numero
-
-      if(this.numeroPlacar <= 15){
-        this.letraPlacar = "B"
-      } else if (this.numeroPlacar >= 16 && this.numeroPlacar <= 30) {
-        this.letraPlacar = "I"
-      } else if (this.numeroPlacar >= 31 && this.numeroPlacar <= 46) {
-        this.letraPlacar = "N"
-      } else if (this.numeroPlacar >= 47 && this.numeroPlacar <= 62) {
-        this.letraPlacar = "G"
-      } else {
-        this.letraPlacar = "O"
-      }
-
-    }*/
   }
 }
 </script>
@@ -183,14 +170,14 @@ export default {
   border-radius: 10px;
 }
 
-.button-bingo {
+.botao-bingo {
   margin: auto;
   padding: 10px;
   width: 100px;
   height: 100px;
 }
 
-.sortLetterAndNumber {
+.letraNumero {
   margin: auto;
   border: 1px solid #ccc;
   width: 100px;
@@ -201,7 +188,7 @@ export default {
   border-radius: 15px;
 }
 
-.players {
+.jogadores {
   margin: auto;
   width: 300px;
   height: 50px;
@@ -213,7 +200,7 @@ export default {
   border-radius: 10px;
 }
 
-.columsPlayers {
+.colunajogadores {
   width: 300px;
   height: 330px;
   border-radius: 15px;
@@ -225,7 +212,6 @@ export default {
   width: 800px;
 }
 
-.centralColumn {
+.colunaCentral {
   border-radius: 15px;
-}
-</style>
+}</style>
