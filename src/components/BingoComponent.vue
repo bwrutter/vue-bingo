@@ -4,9 +4,9 @@
       <div>
         <v-img alt="bingo" src="../assets/bingo.png" style="max-width: 250px; padding: 10px; margin: auto;"> </v-img>
       </div>
-      <div>
+      <!--<div>
         {{ posicoesDisponiveis }}
-      </div>
+      </div>-->
       <div class="formulario" v-if="!havePlayer">
         <v-form ref="form" v-model="valid" lazy-validation>
           <v-text-field v-model="player1" :rules="[v => (!!v) || 'Nome é obrigatório!']" label="Nome do jogador 1"
@@ -88,7 +88,9 @@ export default {
   methods: {
     register() {
       this.$refs.form.validate();
-      this.gerarTabuleiro()
+      if (this.$refs.form.validate() == true){
+        this.gerarTabuleiro()
+      }
       if (this.$refs.form.validate() == true) {
         this.havePlayer = true;
         if (this.player2 == '') {
