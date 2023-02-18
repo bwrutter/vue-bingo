@@ -32,7 +32,7 @@
             <v-sheet class="centralColumn" color="#F4F775">
               <div class="sortLetterAndNumber">{{ letraPlacar + numeroPlacar }}</div>
               <div class="button-bingo">
-                <v-btn color="success" fab x-large dark @click="sortear">
+                <v-btn color="success" fab x-large dark @click="sortearNumero">
                   <v-icon>mdi-refresh</v-icon>
                 </v-btn>
               </div>
@@ -122,8 +122,24 @@ export default {
       const posicao = sortearPosicao(this.posicoesDisponiveis)
       const [numero] = this.posicoesDisponiveis.splice(posicao, 1)
       this.posicoesSorteadas.push(numero)
+      this.letraNumeroSorteio(numero)
 
       return numero
+    },
+
+    letraNumeroSorteio(numero){
+      this.numeroPlacar = numero
+      if(this.numeroPlacar <= 15){
+        this.letraPlacar = "B"
+      } else if (this.numeroPlacar >= 16 && this.numeroPlacar <= 30) {
+        this.letraPlacar = "I"
+      } else if (this.numeroPlacar >= 31 && this.numeroPlacar <= 46) {
+        this.letraPlacar = "N"
+      } else if (this.numeroPlacar >= 47 && this.numeroPlacar <= 62) {
+        this.letraPlacar = "G"
+      } else {
+        this.letraPlacar = "O"
+      }
     },
 
     encerrarOJogo(vencedor) {
@@ -136,10 +152,8 @@ export default {
       }
     },
 
-    sortear() {
-      let allLetter = "BINGO";
-      let randomNumberToLetter = Math.floor(Math.random() * 5);
-      let letras = allLetter.substring(randomNumberToLetter + 1, randomNumberToLetter);
+/*    sortear() {
+
       let numero = this.sortearNumero()
       this.numeroPlacar = numero
 
@@ -155,17 +169,7 @@ export default {
         this.letraPlacar = "O"
       }
 
-      if (this.sortLetterAndNumber == '') {
-        this.sortLetterAndNumber.push(letras + numero);
-      } else if (!this.sortLetterAndNumber.includes(letras + numero)) {
-        this.sortLetterAndNumber.push(letras + numero);
-      } else {
-        console.log("Terceiro IF")
-      }
-
-      this.sortedNumber.push(numero);
-
-    }
+    }*/
   }
 }
 </script>
